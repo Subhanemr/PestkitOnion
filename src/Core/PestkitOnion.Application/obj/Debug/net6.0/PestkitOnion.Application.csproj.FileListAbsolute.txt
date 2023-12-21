@@ -1,0 +1,15 @@
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\bin\Debug\net6.0\PestkitOnion.Application.deps.json
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\bin\Debug\net6.0\PestkitOnion.Application.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\bin\Debug\net6.0\PestkitOnion.Application.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\bin\Debug\net6.0\PestkitOnion.Domain.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\bin\Debug\net6.0\PestkitOnion.Domain.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.csproj.AssemblyReference.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.AssemblyInfoInputs.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.AssemblyInfo.cs
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.csproj.CoreCompileInputs.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.csproj.CopyComplete
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\refint\PestkitOnion.Application.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\PestkitOnion.Application.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Core\PestkitOnion.Application\obj\Debug\net6.0\ref\PestkitOnion.Application.dll

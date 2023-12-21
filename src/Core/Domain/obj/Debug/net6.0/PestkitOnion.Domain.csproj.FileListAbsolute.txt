@@ -1,0 +1,11 @@
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\bin\Debug\net6.0\PestkitOnion.Domain.deps.json
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\bin\Debug\net6.0\PestkitOnion.Domain.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\bin\Debug\net6.0\PestkitOnion.Domain.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.AssemblyInfoInputs.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.AssemblyInfo.cs
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.csproj.CoreCompileInputs.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\refint\PestkitOnion.Domain.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\ref\PestkitOnion.Domain.dll

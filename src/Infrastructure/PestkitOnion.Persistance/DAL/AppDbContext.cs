@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PestkitOnion.Domain.Entities;
+using System.Drawing;
+using System.Reflection;
 
 namespace PestkitOnion.Persistance.DAL
 {
@@ -20,15 +22,35 @@ namespace PestkitOnion.Persistance.DAL
         public DbSet<Tag> Tags { get; set; }
 
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().Property(p => p.Price).IsRequired().HasColumnType("decimal(6,2)");
-            modelBuilder.Entity<Product>().Property(p => p.Description).IsRequired(false).HasColumnType("text");
-            modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired().HasMaxLength(100);
-            modelBuilder.Entity<Product>().Property(p => p.SKU).IsRequired().HasMaxLength(10);
+            modelBuilder.Entity<Author>().HasQueryFilter(c => c.IsDeleted == false);
+            modelBuilder.Entity<Tag>().HasQueryFilter(c => c.IsDeleted == false);
+            modelBuilder.Entity<Department>().HasQueryFilter(c => c.IsDeleted == false);
+            modelBuilder.Entity<Project>().HasQueryFilter(c => c.IsDeleted == false);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var entities = ChangeTracker.Entries<BaseEntity>();
+            foreach (var data in entities)
+            {
+                switch (data.State)
+                {
+                    case EntityState.Modified:
+                        data.Entity.CreateAt = DateTime.Now;
+                        break;
+                    case EntityState.Added:
+                        data.Entity.UpdateAt = DateTime.Now;
+                        break;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -1,0 +1,11 @@
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\bin\Debug\net6.0\PestkitOnion.Infrastructure.deps.json
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\bin\Debug\net6.0\PestkitOnion.Infrastructure.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\bin\Debug\net6.0\PestkitOnion.Infrastructure.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.AssemblyInfo.cs
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\refint\PestkitOnion.Infrastructure.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\ref\PestkitOnion.Infrastructure.dll

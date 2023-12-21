@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PestkitOnion.Domain.Entities
+﻿namespace PestkitOnion.Domain.Entities
 {
     public class Employee:BaseNameEntity
     {
@@ -15,7 +9,7 @@ namespace PestkitOnion.Domain.Entities
         public string? LinkedLink { get; set; }
         public int DepartmentId { get; set; }
         public int PositionId { get; set; }
-        public Department? Department { get; set; }
-        public Position? Position { get; set; }
+        public Department Department { get; set; } = null!;
+        public Position Position { get; set; } = null!;
     }
 }
