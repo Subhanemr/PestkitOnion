@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PestkitOnion.Domain.Entities;
+using PestkitOnion.Persistance.Common;
 using System.Drawing;
 using System.Reflection;
 
@@ -7,10 +8,8 @@ namespace PestkitOnion.Persistance.DAL
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -24,10 +23,7 @@ namespace PestkitOnion.Persistance.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Author>().HasQueryFilter(c => c.IsDeleted == false);
-            modelBuilder.Entity<Tag>().HasQueryFilter(c => c.IsDeleted == false);
-            modelBuilder.Entity<Department>().HasQueryFilter(c => c.IsDeleted == false);
-            modelBuilder.Entity<Project>().HasQueryFilter(c => c.IsDeleted == false);
+            modelBuilder.ApplyQueryFilter();
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 

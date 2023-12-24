@@ -10,46 +10,51 @@ namespace PestkitOnion.API.Controllers
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
-        private readonly IDepartmentService _departmentService;
+        private readonly IDepartmentService _service;
 
-        public DepartmentsController(IDepartmentService departmentService)
+        public DepartmentsController(IDepartmentService service)
         {
-            _departmentService = departmentService;
+            _service = service;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(int page, int take, bool isDeleted = false)
         {
-            return Ok(await _departmentService.GetAllAsync(page, take, isDeleted:isDeleted));
+            return Ok(await _service.GetAllWhereAsync(page, take, isDeleted: isDeleted));
         }
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> Get(int id)
-        //{
-        //    if (id <= 0) return BadRequest();
-        //    return Ok(await _categoryService.GetByIdAsync(id));
-        //}
-        [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateDepartmentDto createDepartmentDto)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            await _departmentService.CreateAsync(createDepartmentDto);
+            return Ok(await _service.GetByIdAsync(id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateDepartmentDto create)
+        {
+            await _service.CreateAsync(create);
             return StatusCode(StatusCodes.Status201Created);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] UpdateDepartmentDto updateDepartmentDto)
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateDepartmentDto update)
         {
-            await _departmentService.UpdateAsync(id, updateDepartmentDto);
+            await _service.UpdateAsync(id, update);
             return NoContent();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _departmentService.DeleteAsync(id);
+            await _service.DeleteAsync(id);
             return NoContent();
         }
         [HttpDelete("SoftDelete/{id}")]
         public async Task<IActionResult> SoftDelete(int id)
         {
-            await _departmentService.SoftDeleteAsync(id);
+            await _service.SoftDeleteAsync(id);
+            return NoContent();
+        }
+        [HttpDelete("ReverseSoftDelete/{id}")]
+        public async Task<IActionResult> ReverseSoftDelete(int id)
+        {
+            await _service.ReverseSoftDeleteAsync(id);
             return NoContent();
         }
     }

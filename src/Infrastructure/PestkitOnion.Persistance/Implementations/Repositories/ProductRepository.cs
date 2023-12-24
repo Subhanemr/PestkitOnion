@@ -5,7 +5,7 @@ using PestkitOnion.Persistance.Implementations.Repositories.Generic;
 
 namespace PestkitOnion.Persistance.Implementations.Repositories
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    internal class ProductRepository : Repository<Product>, IProductRepository
     {
         public ProductRepository(AppDbContext context) : base(context) { }
     }

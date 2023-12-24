@@ -8,46 +8,51 @@ namespace PestkitOnion.API.Controllers
     [ApiController]
     public class PositionsController : ControllerBase
     {
-        private readonly IPositionService _positionService;
+        private readonly IPositionService _service;
 
-        public PositionsController(IPositionService positionService)
+        public PositionsController(IPositionService service)
         {
-            _positionService = positionService;
+            _service = service;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(int page, int take, bool isDeleted = false)
         {
-            return Ok(await _positionService.GetAllAsync(page, take, isDeleted:isDeleted));
+            return Ok(await _service.GetAllWhereAsync(page, take, isDeleted: isDeleted));
         }
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> Get(int id)
-        //{
-        //    if (id <= 0) return BadRequest();
-        //    return Ok(await _categoryService.GetByIdAsync(id));
-        //}
-        [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreatePositionDto createPositionDto)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            await _positionService.CreateAsync(createPositionDto);
+            return Ok(await _service.GetByIdAsync(id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreatePositionDto create)
+        {
+            await _service.CreateAsync(create);
             return StatusCode(StatusCodes.Status201Created);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] UpdatePositionDto updatePositionDto)
+        public async Task<IActionResult> Update(int id, [FromForm] UpdatePositionDto update)
         {
-            await _positionService.UpdateAsync(id, updatePositionDto);
+            await _service.UpdateAsync(id, update);
             return NoContent();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _positionService.DeleteAsync(id);
+            await _service.DeleteAsync(id);
             return NoContent();
         }
         [HttpDelete("SoftDelete/{id}")]
         public async Task<IActionResult> SoftDelete(int id)
         {
-            await _positionService.SoftDeleteAsync(id);
+            await _service.SoftDeleteAsync(id);
+            return NoContent();
+        }
+        [HttpDelete("ReverseSoftDelete/{id}")]
+        public async Task<IActionResult> ReverseSoftDelete(int id)
+        {
+            await _service.ReverseSoftDeleteAsync(id);
             return NoContent();
         }
     }

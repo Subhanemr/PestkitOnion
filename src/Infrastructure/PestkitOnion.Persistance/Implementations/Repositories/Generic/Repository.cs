@@ -22,18 +22,29 @@ namespace PestkitOnion.Persistance.Implementations.Repositories.Generic
             await _dbSet.AddAsync(entity);
         }
 
-        public async Task<bool> CheckUnique(Expression<Func<T, bool>> expression)
+        public async Task<bool> CheckUniqueAsync(Expression<Func<T, bool>> expression, bool IsDeleted = false)
         {
-            bool result = await _dbSet.AnyAsync(expression);
-            return result;
+            return IsDeleted ? await _dbSet.AnyAsync(expression) : await _dbSet.IgnoreQueryFilters().AnyAsync(expression);
         }
 
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
+
         }
 
-        public IQueryable<T> GetAllAsync(Expression<Func<T, bool>>? expression = null, int skip = 0, int take = 0, bool isDeleted = false, bool IsTracking = true, params string[] includes)
+        public IQueryable<T> GetAll(bool IsTracking = true, bool IsDeleted = false, params string[] includes)
+        {
+            var query = _dbSet.AsQueryable();
+
+            query = _addIncludes(query, includes);
+
+            if (IsDeleted) query = query.IgnoreQueryFilters();
+
+            return IsTracking ? query : query.AsNoTracking();
+        }
+
+        public IQueryable<T> GetAllWhere(Expression<Func<T, bool>>? expression = null, int skip = 0, int take = 0, bool IsTracking = true, bool IsDeleted = false, params string[] includes)
         {
             var query = _dbSet.AsQueryable();
             if (expression != null) query = query.Where(expression);
@@ -42,20 +53,15 @@ namespace PestkitOnion.Persistance.Implementations.Repositories.Generic
 
             if (take != 0) query = query.Take(take);
 
-            if (includes != null)
-            {
-                for (int i = 0; i < includes.Length; i++)
-                {
-                    query = query.Include(includes[i]);
-                }
-            }
+            query = _addIncludes(query, includes);
 
-            if (isDeleted) query = query.IgnoreQueryFilters();
+
+            if (IsDeleted) query = query.IgnoreQueryFilters();
 
             return IsTracking ? query : query.AsNoTracking();
         }
 
-        public IQueryable<T> GetAllByOrderAsync(Expression<Func<T, bool>>? expression = null, Expression<Func<T, object>>? orderException = null, bool isDeleted = false, int skip = 0, int take = 0, bool IsDescending = false, bool IsTracking = true, params string[] includes)
+        public IQueryable<T> GetAllWhereByOrder(Expression<Func<T, bool>>? expression = null, Expression<Func<T, object>>? orderException = null, bool IsDescending = false, int skip = 0, int take = 0, bool IsTracking = true, bool IsDeleted = false, params string[] includes)
         {
             var query = _dbSet.AsQueryable();
             if (expression != null) query = query.Where(expression);
@@ -70,24 +76,44 @@ namespace PestkitOnion.Persistance.Implementations.Repositories.Generic
 
             if (take != 0) query = query.Take(take);
 
-            if (includes != null)
-            {
-                for (int i = 0; i < includes.Length; i++)
-                {
-                    query = query.Include(includes[i]);
-                }
-            }
+            query = _addIncludes(query, includes);
 
-            if (isDeleted) query = query.IgnoreQueryFilters();
+            if (IsDeleted) query = query.IgnoreQueryFilters();
 
             return IsTracking ? query : query.AsNoTracking();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByExpressionAsync(Expression<Func<T, bool>> expression, bool IsTracking = true, bool IsDeleted = false, params string[] includes)
         {
-            T entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+            var query = _dbSet.Where(expression).AsQueryable();
 
-            return entity;
+            query = _addIncludes(query, includes);
+
+            if (!IsTracking) query = query.AsNoTracking();
+
+            if (IsDeleted) query = query.IgnoreQueryFilters();
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+
+
+        public async Task<T> GetByIdAsync(int id, bool IsTracking = true, bool IsDeleted = false, params string[] includes)
+        {
+            var query = _dbSet.Where(x => x.Id == id).AsQueryable();
+
+            query = _addIncludes(query, includes);
+
+            if (!IsTracking) query = query.AsNoTracking();
+
+            if (IsDeleted) query = query.IgnoreQueryFilters();
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public void ReverseSoftDelete(T entity)
+        {
+            entity.IsDeleted = false;
         }
 
         public async Task SaveChanceAsync()
@@ -98,12 +124,23 @@ namespace PestkitOnion.Persistance.Implementations.Repositories.Generic
         public void SoftDelete(T entity)
         {
             entity.IsDeleted = true;
-            _dbSet.Update(entity);
         }
 
         public async void Update(T entity)
         {
             _dbSet.Update(entity);
+        }
+
+        private IQueryable<T> _addIncludes(IQueryable<T> query, params string[] includes)
+        {
+            if (includes != null)
+            {
+                for (int i = 0; i < includes.Length; i++)
+                {
+                    query = query.Include(includes[i]);
+                }
+            }
+            return query;
         }
     }
 }

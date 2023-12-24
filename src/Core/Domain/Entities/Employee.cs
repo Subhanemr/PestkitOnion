@@ -7,6 +7,8 @@
         public string? TwitLink { get; set; }
         public string? FaceLink { get; set; }
         public string? LinkedLink { get; set; }
+        
+        //---Relational
         public int DepartmentId { get; set; }
         public int PositionId { get; set; }
         public Department Department { get; set; } = null!;

@@ -2,7 +2,5 @@
 
 namespace PestkitOnion.Application.Abstractions.Repositories
 {
-    public interface IEmployeeRepository : IRepository<Employee>
-    {
-    }
+    public interface IEmployeeRepository : IRepository<Employee> { }
 }

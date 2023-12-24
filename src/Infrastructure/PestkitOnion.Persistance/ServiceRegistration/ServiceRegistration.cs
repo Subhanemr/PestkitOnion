@@ -17,10 +17,13 @@ namespace PestkitOnion.Persistance.ServiceRegistration
 
             services.AddScoped<IAuthorRepository,AuthorRepository>();
             services.AddScoped<IAuthorService, AuthorService>();
+
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IDepartmentService, DepartmentService>();
+
             services.AddScoped<IPositionRepository, PositionRepository>();
             services.AddScoped<IPositionService, PositionService>();
+
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ITagService, TagService>();
 

@@ -6,13 +6,13 @@ namespace PestkitOnion.Application.Abstractions.Services
 {
     public interface IAuthorService
     {
-        Task<ICollection<ItemAuthorDto>> GetAllAsync(int page, int take, bool isDeleted = false);
-        Task<ICollection<ItemAuthorDto>> GetAllByOrderAsync(int page, int take, Expression<Func<Author, object>>? orderExpression, bool isDeleted = false);
-        //Task<GetCategoryDto> GetByIdAsync(int id);
-        Task CreateAsync(CreateAuthorDto createAuthorDto);
-        Task UpdateAsync(int id, UpdateAuthorDto updateAuthorDto);
+        Task<ICollection<ItemAuthorDto>> GetAllWhereAsync(int page, int take, bool isDeleted = false);
+        Task<ICollection<ItemAuthorDto>> GetAllWhereByOrderAsync(int page, int take, Expression<Func<Author, object>>? orderExpression, bool isDeleted = false);
+        Task<GetAuthorDto> GetByIdAsync(int id);
+        Task CreateAsync(CreateAuthorDto create);
+        Task UpdateAsync(int id, UpdateAuthorDto update);
         Task DeleteAsync(int id);
         Task SoftDeleteAsync(int id);
-
+        Task ReverseSoftDeleteAsync(int id);
     }
 }

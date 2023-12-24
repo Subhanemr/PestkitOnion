@@ -2,7 +2,5 @@
 
 namespace PestkitOnion.Application.Abstractions.Repositories
 {
-    public interface IProductRepository : IRepository<Product>
-    {
-    }
+    public interface IProductRepository : IRepository<Product> { }
 }

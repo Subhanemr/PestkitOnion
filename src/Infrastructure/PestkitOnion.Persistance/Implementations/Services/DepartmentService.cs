@@ -19,77 +19,87 @@ namespace PestkitOnion.Persistance.Implementations.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(CreateDepartmentDto createDepartmentDto)
+        public async Task CreateAsync(CreateDepartmentDto create)
         {
-            bool result = await _repository.CheckUnique(c => c.Name == createDepartmentDto.name);
+            bool result = await _repository.CheckUniqueAsync(c => c.Name == create.name);
             if (result) throw new Exception("Bad Request");
-            await _repository.AddAsync(_mapper.Map<Department>(createDepartmentDto));
+            await _repository.AddAsync(_mapper.Map<Department>(create));
             await _repository.SaveChanceAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Department department = await _repository.GetByIdAsync(id);
+            Department item = await _repository.GetByIdAsync(id, IsDeleted: true);
 
-            if (department == null) throw new Exception("Not Found");
+            if (item == null) throw new Exception("Not Found");
 
-            _repository.Delete(department);
+            _repository.Delete(item);
             await _repository.SaveChanceAsync();
         }
 
-        public async Task<ICollection<ItemDepartmentDto>> GetAllAsync(int page, int take, bool isDeleted = false)
+        public async Task<ICollection<ItemDepartmentDto>> GetAllWhereAsync(int page, int take, bool isDeleted = false)
         {
-            ICollection<Department> departments = await _repository.GetAllAsync(skip: (page - 1) * take, take: take, isDeleted: isDeleted, IsTracking: false).ToListAsync();
+            ICollection<Department> items = await _repository
+                .GetAllWhere(skip: (page - 1) * take, take: take, IsDeleted: isDeleted, IsTracking: false).ToListAsync();
 
-            ICollection<ItemDepartmentDto> departmentDtos = _mapper.Map<ICollection<ItemDepartmentDto>>(departments);
+            ICollection<ItemDepartmentDto> dtos = _mapper.Map<ICollection<ItemDepartmentDto>>(items);
 
-            return departmentDtos;
+            return dtos;
         }
-        public async Task<ICollection<ItemDepartmentDto>> GetAllByOrderAsync(int page, int take, Expression<Func<Department, object>>? orderExpression, bool isDeleted = false)
+        public async Task<ICollection<ItemDepartmentDto>> GetAllWhereByOrderAsync(int page, int take,
+            Expression<Func<Department, object>>? orderExpression, bool isDeleted = false)
         {
-            ICollection<Department> departments = await _repository.GetAllByOrderAsync(orderException: orderExpression, skip: (page - 1) * take, take: take, isDeleted: isDeleted, IsTracking: false).ToListAsync();
+            ICollection<Department> items = await _repository
+                .GetAllWhereByOrder(orderException: orderExpression, skip: (page - 1) * take, take: take, IsDeleted: isDeleted, IsTracking: false).ToListAsync();
 
-            ICollection<ItemDepartmentDto> departmentDtos = _mapper.Map<ICollection<ItemDepartmentDto>>(departments);
+            ICollection<ItemDepartmentDto> dtos = _mapper.Map<ICollection<ItemDepartmentDto>>(items);
 
-            return departmentDtos;
+            return dtos;
         }
 
         public async Task SoftDeleteAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Department department = await _repository.GetByIdAsync(id);
-            if (department == null) throw new Exception("Not Found");
-            _repository.SoftDelete(department);
+            Department item = await _repository.GetByIdAsync(id);
+            if (item == null) throw new Exception("Not Found");
+            _repository.SoftDelete(item);
+            await _repository.SaveChanceAsync();
+        }
+        public async Task ReverseSoftDeleteAsync(int id)
+        {
+            if (id <= 0) throw new Exception("Bad Request");
+            Department item = await _repository.GetByIdAsync(id);
+            if (item == null) throw new Exception("Not Found");
+            _repository.ReverseSoftDelete(item);
             await _repository.SaveChanceAsync();
         }
 
-        //public async Task<GetCategoryDto> GetByIdAsync(int id)
-        //{
-        //    Category category = await _repository.GetByIdAsync(id);
-        //    if (category == null) throw new Exception("Not Found");
-
-        //    return new GetCategoryDto
-        //    {
-        //        Id = category.Id,
-        //        Name = category.Name
-        //    };
-        //}
-
-        public async Task UpdateAsync(int id, UpdateDepartmentDto updateDepartmentDto)
+        public async Task UpdateAsync(int id, UpdateDepartmentDto update)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Department department = await _repository.GetByIdAsync(id);
+            Department item = await _repository.GetByIdAsync(id);
 
-            if (department == null) throw new Exception("Not Found");
+            if (item == null) throw new Exception("Not Found");
 
-            bool result = await _repository.CheckUnique(c => c.Name == updateDepartmentDto.name && c.Id != id);
+            bool result = await _repository.CheckUniqueAsync(c => c.Name == update.name && c.Id != id);
             if (result) throw new Exception("Bad Request");
 
-            _mapper.Map(updateDepartmentDto, department);
+            _mapper.Map(update, item);
 
-            _repository.Update(department);
+            _repository.Update(item);
             await _repository.SaveChanceAsync();
+        }
+
+        public async Task<GetDepartmentDto> GetByIdAsync(int id)
+        {
+            if (id <= 0) throw new Exception("Bad Request");
+            Department item = await _repository.GetByIdAsync(id, includes: nameof(Department.Employees));
+            if (item == null) throw new Exception("Not Found");
+
+            GetDepartmentDto dto = _mapper.Map<GetDepartmentDto>(item);
+
+            return dto;
         }
     }
 }

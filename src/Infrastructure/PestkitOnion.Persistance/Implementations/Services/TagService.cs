@@ -19,77 +19,87 @@ namespace PestkitOnion.Persistance.Implementations.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(CreateTagDto createTagDto)
+        public async Task CreateAsync(CreateTagDto create)
         {
-            bool result = await _repository.CheckUnique(c => c.Name == createTagDto.name);
+            bool result = await _repository.CheckUniqueAsync(c => c.Name == create.name);
             if (result) throw new Exception("Bad Request");
-            await _repository.AddAsync(_mapper.Map<Tag>(createTagDto));
+            await _repository.AddAsync(_mapper.Map<Tag>(create));
             await _repository.SaveChanceAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Tag tag = await _repository.GetByIdAsync(id);
+            Tag item = await _repository.GetByIdAsync(id, IsDeleted: true);
 
-            if (tag == null) throw new Exception("Not Found");
+            if (item == null) throw new Exception("Not Found");
 
-            _repository.Delete(tag);
+            _repository.Delete(item);
             await _repository.SaveChanceAsync();
         }
 
-        public async Task<ICollection<ItemTagDto>> GetAllAsync(int page, int take, bool isDeleted = false)
+        public async Task<ICollection<ItemTagDto>> GetAllWhereAsync(int page, int take, bool isDeleted = false)
         {
-            ICollection<Tag> tags = await _repository.GetAllAsync(skip: (page - 1) * take, take: take, isDeleted: isDeleted, IsTracking: false).ToListAsync();
+            ICollection<Tag> items = await _repository
+                .GetAllWhere(skip: (page - 1) * take, take: take, IsDeleted: isDeleted, IsTracking: false).ToListAsync();
 
-            ICollection<ItemTagDto> tagDtos = _mapper.Map<ICollection<ItemTagDto>>(tags);
+            ICollection<ItemTagDto> dtos = _mapper.Map<ICollection<ItemTagDto>>(items);
 
-            return tagDtos;
+            return dtos;
         }
-        public async Task<ICollection<ItemTagDto>> GetAllByOrderAsync(int page, int take, Expression<Func<Tag, object>>? orderExpression, bool isDeleted = false)
+        public async Task<ICollection<ItemTagDto>> GetAllWhereByOrderAsync(int page, int take,
+            Expression<Func<Tag, object>>? orderExpression, bool isDeleted = false)
         {
-            ICollection<Tag> tags = await _repository.GetAllByOrderAsync(orderException: orderExpression, skip: (page - 1) * take, take: take, isDeleted: isDeleted, IsTracking: false).ToListAsync();
+            ICollection<Tag> items = await _repository
+                .GetAllWhereByOrder(orderException: orderExpression, skip: (page - 1) * take, take: take, IsDeleted: isDeleted, IsTracking: false).ToListAsync();
 
-            ICollection<ItemTagDto> tagDtos = _mapper.Map<ICollection<ItemTagDto>>(tags);
+            ICollection<ItemTagDto> dtos = _mapper.Map<ICollection<ItemTagDto>>(items);
 
-            return tagDtos;
+            return dtos;
         }
 
         public async Task SoftDeleteAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Tag tag = await _repository.GetByIdAsync(id);
-            if (tag == null) throw new Exception("Not Found");
-            _repository.SoftDelete(tag);
+            Tag item = await _repository.GetByIdAsync(id);
+            if (item == null) throw new Exception("Not Found");
+            _repository.SoftDelete(item);
+            await _repository.SaveChanceAsync();
+        }
+        public async Task ReverseSoftDeleteAsync(int id)
+        {
+            if (id <= 0) throw new Exception("Bad Request");
+            Tag item = await _repository.GetByIdAsync(id);
+            if (item == null) throw new Exception("Not Found");
+            _repository.ReverseSoftDelete(item);
             await _repository.SaveChanceAsync();
         }
 
-        //public async Task<GetCategoryDto> GetByIdAsync(int id)
-        //{
-        //    Category category = await _repository.GetByIdAsync(id);
-        //    if (category == null) throw new Exception("Not Found");
-
-        //    return new GetCategoryDto
-        //    {
-        //        Id = category.Id,
-        //        Name = category.Name
-        //    };
-        //}
-
-        public async Task UpdateAsync(int id, UpdateTagDto updateTagDto)
+        public async Task UpdateAsync(int id, UpdateTagDto update)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Tag tag = await _repository.GetByIdAsync(id);
+            Tag item = await _repository.GetByIdAsync(id);
 
-            if (tag == null) throw new Exception("Not Found");
+            if (item == null) throw new Exception("Not Found");
 
-            bool result = await _repository.CheckUnique(c => c.Name == updateTagDto.name && c.Id != id);
+            bool result = await _repository.CheckUniqueAsync(c => c.Name == update.name && c.Id != id);
             if (result) throw new Exception("Bad Request");
 
-            _mapper.Map(updateTagDto, tag);
+            _mapper.Map(update, item);
 
-            _repository.Update(tag);
+            _repository.Update(item);
             await _repository.SaveChanceAsync();
+        }
+
+        public async Task<GetTagDto> GetByIdAsync(int id)
+        {
+            if (id <= 0) throw new Exception("Bad Request");
+            Tag item = await _repository.GetByIdAsync(id, includes: $"{nameof(Tag.BlogTags)}.{nameof(BlogTag.Blog)}");
+            if (item == null) throw new Exception("Not Found");
+
+            GetTagDto dto = _mapper.Map<GetTagDto>(item);
+
+            return dto;
         }
     }
 }

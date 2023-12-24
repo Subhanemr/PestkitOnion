@@ -11,6 +11,8 @@ namespace PestkitOnion.Application.MappingProfiles
             CreateMap<CreateBlogDto, BlogProfile>();
             CreateMap<Blog, ItemBlogDto>().ReverseMap();
             CreateMap<UpdateBlogDto, Blog>().ReverseMap();
+            CreateMap<IncludeBlogDto, Blog>().ReverseMap();
+
         }
     }
 }

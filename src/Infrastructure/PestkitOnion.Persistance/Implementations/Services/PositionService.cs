@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PestkitOnion.Application.Abstractions.Repositories;
 using PestkitOnion.Application.Abstractions.Services;
-using PestkitOnion.Application.Dtos.Department;
 using PestkitOnion.Application.Dtos.Position;
 using PestkitOnion.Domain.Entities;
 using System.Linq.Expressions;
@@ -20,77 +19,87 @@ namespace PestkitOnion.Persistance.Implementations.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(CreatePositionDto createPositionDto)
+        public async Task CreateAsync(CreatePositionDto create)
         {
-            bool result = await _repository.CheckUnique(c => c.Name == createPositionDto.name);
+            bool result = await _repository.CheckUniqueAsync(c => c.Name == create.name);
             if (result) throw new Exception("Bad Request");
-            await _repository.AddAsync(_mapper.Map<Position>(createPositionDto));
+            await _repository.AddAsync(_mapper.Map<Position>(create));
             await _repository.SaveChanceAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Position position = await _repository.GetByIdAsync(id);
+            Position item = await _repository.GetByIdAsync(id, IsDeleted: true);
 
-            if (position == null) throw new Exception("Not Found");
+            if (item == null) throw new Exception("Not Found");
 
-            _repository.Delete(position);
+            _repository.Delete(item);
             await _repository.SaveChanceAsync();
         }
 
-        public async Task<ICollection<ItemPositionDto>> GetAllAsync(int page, int take, bool isDeleted = false)
+        public async Task<ICollection<ItemPositionDto>> GetAllWhereAsync(int page, int take, bool isDeleted = false)
         {
-            ICollection<Position> positions = await _repository.GetAllAsync(skip: (page - 1) * take, take: take, isDeleted: isDeleted, IsTracking: false).ToListAsync();
+            ICollection<Position> items = await _repository
+                .GetAllWhere(skip: (page - 1) * take, take: take, IsDeleted: isDeleted, IsTracking: false).ToListAsync();
 
-            ICollection<ItemPositionDto> positionDtos = _mapper.Map<ICollection<ItemPositionDto>>(positions);
+            ICollection<ItemPositionDto> dtos = _mapper.Map<ICollection<ItemPositionDto>>(items);
 
-            return positionDtos;
+            return dtos;
         }
-        public async Task<ICollection<ItemPositionDto>> GetAllByOrderAsync(int page, int take, Expression<Func<Position, object>>? orderExpression, bool isDeleted = false)
+        public async Task<ICollection<ItemPositionDto>> GetAllWhereByOrderAsync(int page, int take,
+            Expression<Func<Position, object>>? orderExpression, bool isDeleted = false)
         {
-            ICollection<Position> positions = await _repository.GetAllByOrderAsync(orderException: orderExpression, skip: (page - 1) * take, take: take, isDeleted: isDeleted, IsTracking: false).ToListAsync();
+            ICollection<Position> items = await _repository
+                .GetAllWhereByOrder(orderException: orderExpression, skip: (page - 1) * take, take: take, IsDeleted: isDeleted, IsTracking: false).ToListAsync();
 
-            ICollection<ItemPositionDto> positionDtos = _mapper.Map<ICollection<ItemPositionDto>>(positions);
+            ICollection<ItemPositionDto> dtos = _mapper.Map<ICollection<ItemPositionDto>>(items);
 
-            return positionDtos;
+            return dtos;
         }
 
         public async Task SoftDeleteAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Position position = await _repository.GetByIdAsync(id);
-            if (position == null) throw new Exception("Not Found");
-            _repository.SoftDelete(position);
+            Position item = await _repository.GetByIdAsync(id);
+            if (item == null) throw new Exception("Not Found");
+            _repository.SoftDelete(item);
+            await _repository.SaveChanceAsync();
+        }
+        public async Task ReverseSoftDeleteAsync(int id)
+        {
+            if (id <= 0) throw new Exception("Bad Request");
+            Position item = await _repository.GetByIdAsync(id);
+            if (item == null) throw new Exception("Not Found");
+            _repository.ReverseSoftDelete(item);
             await _repository.SaveChanceAsync();
         }
 
-        //public async Task<GetCategoryDto> GetByIdAsync(int id)
-        //{
-        //    Category category = await _repository.GetByIdAsync(id);
-        //    if (category == null) throw new Exception("Not Found");
-
-        //    return new GetCategoryDto
-        //    {
-        //        Id = category.Id,
-        //        Name = category.Name
-        //    };
-        //}
-
-        public async Task UpdateAsync(int id, UpdatePositionDto updatePositionDto)
+        public async Task UpdateAsync(int id, UpdatePositionDto update)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Position position = await _repository.GetByIdAsync(id);
+            Position item = await _repository.GetByIdAsync(id);
 
-            if (position == null) throw new Exception("Not Found");
+            if (item == null) throw new Exception("Not Found");
 
-            bool result = await _repository.CheckUnique(c => c.Name == updatePositionDto.name && c.Id != id);
+            bool result = await _repository.CheckUniqueAsync(c => c.Name == update.name && c.Id != id);
             if (result) throw new Exception("Bad Request");
 
-            _mapper.Map(updatePositionDto, position);
+            _mapper.Map(update, item);
 
-            _repository.Update(position);
+            _repository.Update(item);
             await _repository.SaveChanceAsync();
+        }
+
+        public async Task<GetPositionDto> GetByIdAsync(int id)
+        {
+            if (id <= 0) throw new Exception("Bad Request");
+            Position item = await _repository.GetByIdAsync(id, includes: nameof(Position.Employees));
+            if (item == null) throw new Exception("Not Found");
+
+            GetPositionDto dto = _mapper.Map<GetPositionDto>(item);
+
+            return dto;
         }
     }
 }

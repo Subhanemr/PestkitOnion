@@ -2,7 +2,5 @@
 
 namespace PestkitOnion.Application.Abstractions.Repositories
 {
-    public interface IAuthorRepository:IRepository<Author>
-    {
-    }
+    public interface IAuthorRepository : IRepository<Author> { }
 }

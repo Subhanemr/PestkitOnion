@@ -11,13 +11,13 @@ namespace PestkitOnion.Application.Abstractions.Services
 {
     public interface IDepartmentService
     {
-        Task<ICollection<ItemDepartmentDto>> GetAllAsync(int page, int take, bool isDeleted = false);
-        Task<ICollection<ItemDepartmentDto>> GetAllByOrderAsync(int page, int take, Expression<Func<Department, object>>? orderExpression, bool isDeleted = false);
-        //Task<GetCategoryDto> GetByIdAsync(int id);
-        Task CreateAsync(CreateDepartmentDto createDepartmentDto);
-        Task UpdateAsync(int id, UpdateDepartmentDto createDepartmentDto);
+        Task<ICollection<ItemDepartmentDto>> GetAllWhereAsync(int page, int take, bool isDeleted = false);
+        Task<ICollection<ItemDepartmentDto>> GetAllWhereByOrderAsync(int page, int take, Expression<Func<Department, object>>? orderExpression, bool isDeleted = false);
+        Task<GetDepartmentDto> GetByIdAsync(int id);
+        Task CreateAsync(CreateDepartmentDto create);
+        Task UpdateAsync(int id, UpdateDepartmentDto update);
         Task DeleteAsync(int id);
         Task SoftDeleteAsync(int id);
-
+        Task ReverseSoftDeleteAsync(int id);
     }
 }

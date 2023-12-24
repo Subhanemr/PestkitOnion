@@ -11,6 +11,8 @@ namespace PestkitOnion.Application.MappingProfiles
             CreateMap<CreateProductDto, Product>();
             CreateMap<Product, ItemProductDto>().ReverseMap();
             CreateMap<UpdateProductDto, Product>().ReverseMap();
+            CreateMap<GetProductDto, Product>().ReverseMap();
+
         }
     }
 }
