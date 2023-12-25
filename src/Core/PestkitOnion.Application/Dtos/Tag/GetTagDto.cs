@@ -2,5 +2,10 @@
 
 namespace PestkitOnion.Application.Dtos.Tag
 {
-    public record GetTagDto(int id, string name, ICollection<IncludeBlogDto> blogs);
+    public record GetTagDto {
+
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public ICollection<IncludeBlogDto>? Blogs { get; set; }
+    }
 }

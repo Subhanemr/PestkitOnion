@@ -17,6 +17,8 @@ namespace PestkitOnion.Persistance.Common
             ApplyQuery<Tag>(modelBuilder);
             ApplyQuery<Author>(modelBuilder);
             ApplyQuery<Position>(modelBuilder);
+            ApplyQuery<Employee>(modelBuilder);
+
         }
     }
 }

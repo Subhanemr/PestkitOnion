@@ -27,6 +27,12 @@ namespace PestkitOnion.Persistance.ServiceRegistration
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ITagService, TagService>();
 
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
+
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+
             return services;
         }
     }

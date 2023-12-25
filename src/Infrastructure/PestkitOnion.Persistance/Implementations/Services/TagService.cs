@@ -94,7 +94,8 @@ namespace PestkitOnion.Persistance.Implementations.Services
         public async Task<GetTagDto> GetByIdAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Tag item = await _repository.GetByIdAsync(id, includes: $"{nameof(Tag.BlogTags)}.{nameof(BlogTag.Blog)}");
+            string[] includes = { "BlogTags.Blog" };
+            Tag item = await _repository.GetByIdAsync(id, includes: includes);
             if (item == null) throw new Exception("Not Found");
 
             GetTagDto dto = _mapper.Map<GetTagDto>(item);

@@ -94,7 +94,8 @@ namespace PestkitOnion.Persistance.Implementations.Services
         public async Task<GetEmployeeDto> GetByIdAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            Employee item = await _repository.GetByIdAsync(id, includes: $"{nameof(Employee.Position)} {nameof(Employee.Department)}");
+            string[] includes = { $"{nameof(Employee.Position)}", $"{nameof(Employee.Department)}" };
+            Employee item = await _repository.GetByIdAsync(id, includes: includes);
             if (item == null) throw new Exception("Not Found");
 
             GetEmployeeDto dto = _mapper.Map<GetEmployeeDto>(item);
