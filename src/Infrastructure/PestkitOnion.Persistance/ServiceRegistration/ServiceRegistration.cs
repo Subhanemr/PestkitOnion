@@ -33,6 +33,10 @@ namespace PestkitOnion.Persistance.ServiceRegistration
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IEmployeeService, EmployeeService>();
 
+            services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IBlogService, BlogService>();
+
+
             return services;
         }
     }

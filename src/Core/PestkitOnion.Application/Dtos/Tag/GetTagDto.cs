@@ -6,6 +6,6 @@ namespace PestkitOnion.Application.Dtos.Tag
 
         public int Id { get; init; }
         public string Name { get; init; }
-        public ICollection<IncludeBlogDto>? Blogs { get; set; }
+        public ICollection<IncludeBlogDto>? Blogs { get; set; }     
     }
 }

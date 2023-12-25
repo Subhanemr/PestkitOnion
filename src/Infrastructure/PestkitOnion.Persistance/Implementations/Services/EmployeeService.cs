@@ -4,6 +4,7 @@ using PestkitOnion.Application.Abstractions.Repositories;
 using PestkitOnion.Application.Abstractions.Services;
 using PestkitOnion.Application.Dtos.Employee;
 using PestkitOnion.Domain.Entities;
+using PestkitOnion.Persistance.Implementations.Repositories;
 using System.Linq.Expressions;
 
 namespace PestkitOnion.Persistance.Implementations.Services
@@ -11,18 +12,29 @@ namespace PestkitOnion.Persistance.Implementations.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _repository;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IPositionRepository _positionRepository;
         private readonly IMapper _mapper;
 
-        public EmployeeService(IEmployeeRepository repository, IMapper mapper)
+        public EmployeeService(IEmployeeRepository repository, IMapper mapper, IDepartmentRepository departmentRepository, IPositionRepository positionRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _departmentRepository = departmentRepository;
+            _positionRepository = positionRepository;
         }
 
         public async Task CreateAsync(CreateEmployeeDto create)
         {
             bool result = await _repository.CheckUniqueAsync(c => c.Name == create.name);
             if (result) throw new Exception("Bad Request");
+
+            bool departmentResult = await _departmentRepository.CheckUniqueAsync(c => c.Id == create.departmentId);
+            if (!departmentResult) throw new Exception("Department not exsist");
+
+            bool positionResult = await _positionRepository.CheckUniqueAsync(c => c.Id == create.positionId);
+            if (!positionResult) throw new Exception("Position not exsist");
+
             await _repository.AddAsync(_mapper.Map<Employee>(create));
             await _repository.SaveChanceAsync();
         }
@@ -84,6 +96,12 @@ namespace PestkitOnion.Persistance.Implementations.Services
 
             bool result = await _repository.CheckUniqueAsync(c => c.Name == update.name && c.Id != id);
             if (result) throw new Exception("Bad Request");
+
+            bool departmentResult = await _departmentRepository.CheckUniqueAsync(c => c.Id == update.departmentId);
+            if (!departmentResult) throw new Exception("Department not exsist");
+
+            bool positionResult = await _positionRepository.CheckUniqueAsync(c => c.Id == update.positionId);
+            if (!positionResult) throw new Exception("Position not exsist");
 
             _mapper.Map(update, item);
 

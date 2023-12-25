@@ -8,8 +8,9 @@ namespace PestkitOnion.Application.MappingProfiles
     {
         public BlogProfile()
         {
-            CreateMap<CreateBlogDto, BlogProfile>();
+            CreateMap<CreateBlogDto, Blog>();
             CreateMap<Blog, ItemBlogDto>().ReverseMap();
+            CreateMap<GetBlogDto, Blog>().ReverseMap().ForMember(x => x.Tags, opt => opt.Ignore());
             CreateMap<UpdateBlogDto, Blog>().ReverseMap();
             CreateMap<IncludeBlogDto, Blog>().ReverseMap();
 

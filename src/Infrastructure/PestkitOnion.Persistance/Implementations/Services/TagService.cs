@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PestkitOnion.Application.Abstractions.Repositories;
 using PestkitOnion.Application.Abstractions.Services;
+using PestkitOnion.Application.Dtos.Blog;
 using PestkitOnion.Application.Dtos.Tag;
 using PestkitOnion.Domain.Entities;
 using System.Linq.Expressions;
@@ -94,11 +95,17 @@ namespace PestkitOnion.Persistance.Implementations.Services
         public async Task<GetTagDto> GetByIdAsync(int id)
         {
             if (id <= 0) throw new Exception("Bad Request");
-            string[] includes = { "BlogTags.Blog" };
+            string[] includes = { $"{nameof(Tag.BlogTags)}", $"{nameof(Tag.BlogTags)}.{nameof(BlogTag.Blog)}" };
             Tag item = await _repository.GetByIdAsync(id, includes: includes);
             if (item == null) throw new Exception("Not Found");
 
             GetTagDto dto = _mapper.Map<GetTagDto>(item);
+
+            dto.Blogs = new List<IncludeBlogDto>();
+            foreach (var blog in item.BlogTags)
+            {
+                dto.Blogs.Add(_mapper.Map<IncludeBlogDto>(blog.Blog));
+            }
 
             return dto;
         }
