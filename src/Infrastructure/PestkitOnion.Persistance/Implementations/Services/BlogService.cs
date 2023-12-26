@@ -105,7 +105,7 @@ namespace PestkitOnion.Persistance.Implementations.Services
 
             foreach (BlogTag blogTag in item.Tags)
             {
-                blogTag.IsDeleted = true;
+                blogTag.IsDeleted = false;
             }
 
             await _repository.SaveChanceAsync();
