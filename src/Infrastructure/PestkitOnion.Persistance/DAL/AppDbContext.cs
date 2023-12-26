@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PestkitOnion.Domain.Entities;
 using PestkitOnion.Persistance.Common;
 using System.Drawing;
@@ -6,7 +7,7 @@ using System.Reflection;
 
 namespace PestkitOnion.Persistance.DAL
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

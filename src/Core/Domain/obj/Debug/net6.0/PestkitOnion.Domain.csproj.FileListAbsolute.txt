@@ -9,3 +9,4 @@ C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.
 C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\refint\PestkitOnion.Domain.dll
 C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.pdb
 C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\ref\PestkitOnion.Domain.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Core\Domain\obj\Debug\net6.0\PestkitOnion.Domain.csproj.AssemblyReference.cache
