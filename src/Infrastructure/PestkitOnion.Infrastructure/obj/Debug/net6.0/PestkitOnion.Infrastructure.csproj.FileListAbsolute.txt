@@ -9,3 +9,9 @@ C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure
 C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\refint\PestkitOnion.Infrastructure.dll
 C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.pdb
 C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\ref\PestkitOnion.Infrastructure.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\bin\Debug\net6.0\PestkitOnion.Application.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\bin\Debug\net6.0\PestkitOnion.Domain.dll
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\bin\Debug\net6.0\PestkitOnion.Application.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\bin\Debug\net6.0\PestkitOnion.Domain.pdb
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\T x\Desktop\PestkitOnion\src\Infrastructure\PestkitOnion.Infrastructure\obj\Debug\net6.0\PestkitOnion.Infrastructure.csproj.CopyComplete

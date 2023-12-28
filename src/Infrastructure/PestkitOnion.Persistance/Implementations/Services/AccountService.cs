@@ -15,16 +15,16 @@ namespace PestkitOnion.Persistance.Implementations.Services
     public class AccountService : IAccountService
     {
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
+        private readonly ITokenHandler _tokenHandler;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountService(IMapper mapper, IConfiguration configuration, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountService(IMapper mapper, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenHandler = tokenHandler;
         }
 
         public async Task<TokenResponseDto> LogInAsync(LogInDto login)
@@ -40,7 +40,7 @@ namespace PestkitOnion.Persistance.Implementations.Services
             if (result.IsLockedOut) throw new Exception("Login is not enable please try latter");
             if (!result.Succeeded) throw new Exception("Username, Email or Password is incorrect");
 
-            var tokenResponse = CreateToken(user).Result;
+            var tokenResponse = _tokenHandler.CreateJwt(user, 60);
             return tokenResponse;
         }
 
@@ -57,29 +57,6 @@ namespace PestkitOnion.Persistance.Implementations.Services
                     message.AppendLine(error.Description);
                 }
             }
-        }
-
-        public async Task<TokenResponseDto> CreateToken(AppUser user)
-        {
-            List<Claim> claims = new List<Claim>() 
-            { 
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
-            };
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecurityKey"]));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var tokenOptions = new JwtSecurityToken
-                (
-                    issuer: _configuration["JWT:Issuer"],
-                    audience: _configuration["JWT:Audience"],
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(6),
-                    signingCredentials: signinCredentials
-                );
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-            return new TokenResponseDto { Token = tokenString };
         }
     }
 }

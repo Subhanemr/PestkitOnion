@@ -9,6 +9,7 @@
       "PestkitOnion.API/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "6.0.25",
+          "PestkitOnion.Infrastructure": "1.0.0",
           "PestkitOnion.Persistance": "1.0.0",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
@@ -615,7 +616,6 @@
           "AutoMapper": "12.0.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
           "FluentValidation.AspNetCore": "11.3.0",
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.25",
           "PestkitOnion.Domain": "1.0.0"
         },
         "runtime": {
@@ -630,10 +630,17 @@
           "PestkitOnion.Domain.dll": {}
         }
       },
-      "PestkitOnion.Persistance/1.0.0": {
+      "PestkitOnion.Infrastructure/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.25",
-          "Microsoft.EntityFrameworkCore": "6.0.25",
+          "PestkitOnion.Application": "1.0.0"
+        },
+        "runtime": {
+          "PestkitOnion.Infrastructure.dll": {}
+        }
+      },
+      "PestkitOnion.Persistance/1.0.0": {
+        "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.25",
           "PestkitOnion.Application": "1.0.0"
         },
@@ -1068,6 +1075,11 @@
       "sha512": ""
     },
     "PestkitOnion.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PestkitOnion.Infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1045,7 +1045,6 @@
           "AutoMapper": "12.0.1",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
           "FluentValidation.AspNetCore": "11.3.0",
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.25",
           "PestkitOnion.Domain": "1.0.0"
         },
         "compile": {
@@ -1068,12 +1067,24 @@
           "bin/placeholder/PestkitOnion.Domain.dll": {}
         }
       },
-      "PestkitOnion.Persistance/1.0.0": {
+      "PestkitOnion.Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.25",
-          "Microsoft.EntityFrameworkCore": "6.0.25",
+          "PestkitOnion.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PestkitOnion.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PestkitOnion.Infrastructure.dll": {}
+        }
+      },
+      "PestkitOnion.Persistance/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.25",
           "PestkitOnion.Application": "1.0.0"
         },
@@ -2835,6 +2846,11 @@
       "path": "../../Core/Domain/PestkitOnion.Domain.csproj",
       "msbuildProject": "../../Core/Domain/PestkitOnion.Domain.csproj"
     },
+    "PestkitOnion.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../../Infrastructure/PestkitOnion.Infrastructure/PestkitOnion.Infrastructure.csproj",
+      "msbuildProject": "../../Infrastructure/PestkitOnion.Infrastructure/PestkitOnion.Infrastructure.csproj"
+    },
     "PestkitOnion.Persistance/1.0.0": {
       "type": "project",
       "path": "../../Infrastructure/PestkitOnion.Persistance/PestkitOnion.Persistance.csproj",
@@ -2844,6 +2860,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Microsoft.EntityFrameworkCore.Design >= 6.0.25",
+      "PestkitOnion.Infrastructure >= 1.0.0",
       "PestkitOnion.Persistance >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
@@ -2881,6 +2898,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+            "C:\\Users\\T x\\Desktop\\PestkitOnion\\src\\Infrastructure\\PestkitOnion.Infrastructure\\PestkitOnion.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\T x\\Desktop\\PestkitOnion\\src\\Infrastructure\\PestkitOnion.Infrastructure\\PestkitOnion.Infrastructure.csproj"
+            },
             "C:\\Users\\T x\\Desktop\\PestkitOnion\\src\\Infrastructure\\PestkitOnion.Persistance\\PestkitOnion.Persistance.csproj": {
               "projectPath": "C:\\Users\\T x\\Desktop\\PestkitOnion\\src\\Infrastructure\\PestkitOnion.Persistance\\PestkitOnion.Persistance.csproj"
             }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PestkitOnion.Application.Abstractions.Services;
 using PestkitOnion.Application.Dtos.Account;
 
@@ -15,13 +14,13 @@ namespace PestkitOnion.API.Controllers
         {
             _service = service;
         }
-        [HttpPost]
+        [HttpPost("[Action]")]
         public async Task<IActionResult> Register([FromForm] RegisterDto register)
         {
             await _service.RegisterAsync(register);
             return NoContent();
         }
-        [HttpPut]
+        [HttpPost("[Action]")]
         public async Task<IActionResult> LogIn([FromForm] LogInDto login)
         {
             var result = await _service.LogInAsync(login);

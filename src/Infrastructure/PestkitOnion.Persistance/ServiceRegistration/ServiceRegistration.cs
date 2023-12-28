@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using PestkitOnion.Application.Abstractions.Repositories;
 using PestkitOnion.Application.Abstractions.Services;
 using PestkitOnion.Domain.Entities;
 using PestkitOnion.Persistance.DAL;
 using PestkitOnion.Persistance.Implementations.Repositories;
 using PestkitOnion.Persistance.Implementations.Services;
-using System.Text;
 
 namespace PestkitOnion.Persistance.ServiceRegistration
 {
@@ -58,27 +55,6 @@ namespace PestkitOnion.Persistance.ServiceRegistration
 
                 //options.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(opt =>
-            {
-                opt.TokenValidationParameters = new()
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
-
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"])),
-                    LifetimeValidator = (_ , exprice, _, _) => exprice != null ? exprice > DateTime.UtcNow :false
-                };
-            });
 
             return services;
         }
