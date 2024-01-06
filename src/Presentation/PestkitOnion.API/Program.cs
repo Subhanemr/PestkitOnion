@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using PestkitOnion.Application.ServicesRegistration;
 using PestkitOnion.Infrastructure.ServiceRegistration;
+using PestkitOnion.Persistance.DAL;
 using PestkitOnion.Persistance.ServiceRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +49,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>();
+    initializer.InitializeDbContext().Wait();
+    initializer.CreateUserRoles().Wait();
+    initializer.InitializeAdmin().Wait();
 }
 
 app.UseHttpsRedirection();

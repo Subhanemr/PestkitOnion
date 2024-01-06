@@ -634,6 +634,12 @@ namespace PestkitOnion.Persistance.DAL.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpireAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(25)

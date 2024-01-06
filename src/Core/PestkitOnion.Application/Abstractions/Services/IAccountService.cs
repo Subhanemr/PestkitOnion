@@ -7,5 +7,6 @@ namespace PestkitOnion.Application.Abstractions.Services
     {
         Task RegisterAsync(RegisterDto register);
         Task<TokenResponseDto> LogInAsync(LogInDto login);
+        Task<TokenResponseDto> LogInByRefreshToken(string refresh);
     }
 }

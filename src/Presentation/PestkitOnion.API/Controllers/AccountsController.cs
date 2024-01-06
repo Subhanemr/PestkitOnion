@@ -26,5 +26,10 @@ namespace PestkitOnion.API.Controllers
             var result = await _service.LogInAsync(login);
             return Ok(result);
         }
+        [HttpPost("[Action]")]
+        public async Task<IActionResult> LogInByRefresh(string refToken)
+        {
+            return Ok(await _service.LogInByRefreshToken(refToken));
+        }
     }
 }
